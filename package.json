@@ -1,0 +1,10 @@
+{
+  "name": "unimaster",
+  "version": "0.1.0",
+  "description": "Static buildable scaffold for UniMaster SaaS documentation.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "license": "MIT"
+}

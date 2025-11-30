@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>UniMaster SaaS Blueprint</title>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Next.js 14 • Supabase • TailwindCSS • shadcn/ui</p>
+        <h1>UniMaster: multi-community learning SaaS</h1>
+        <p class="lede">Blueprint for a production-ready platform that empowers garimpeiros to run communities, monetize courses, and deliver content securely to students.</p>
+      </div>
+      <div class="hero-card">
+        <p class="hero-stat">Server-first</p>
+        <p class="hero-meta">RSC by default, server actions for mutations, client components only when UX needs interactivity.</p>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Architecture snapshot</h2>
+        <p>Composable Next.js 14 app router with Supabase as the single backend surface.</p>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>Frontend</h3>
+          <ul class="list">
+            <li>App Router, nested layouts, route groups for public vs. private areas.</li>
+            <li>Atomic design system with TailwindCSS + shadcn/ui atoms &amp; molecules.</li>
+            <li>Server Components for data reads; client wrappers for forms and media players.</li>
+            <li>Zod + React Hook Form for validation and type-safe server actions.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Backend / Data</h3>
+          <ul class="list">
+            <li>Supabase Postgres with RLS enforcing <code>community_id</code> isolation.</li>
+            <li>Supabase Auth JWT for both server actions and client session recovery.</li>
+            <li>Storage buckets for video/pdf uploads; UploadThing optional.</li>
+            <li>Triggers for ordering and consistency (course &amp; lesson indices).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Domain model</h2>
+        <p>Single-owner communities with multi-tenant isolation and student subscriptions.</p>
+      </div>
+      <div class="grid three">
+        <div class="card">
+          <h3>Users</h3>
+          <p>Roles: admin, garimpeiro (owner), student.</p>
+          <ul class="list compact">
+            <li>Fields: id, name, email, role, university, avatar_url, created_at.</li>
+            <li>Has many communities (owner), posts, comments, subscriptions.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Communities</h3>
+          <p>One garimpeiro &rarr; many students.</p>
+          <ul class="list compact">
+            <li>Fields: id, owner_id, name, description, banner_url, price_monthly, visibility, created_at.</li>
+            <li>Has many courses, posts, events.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Courses &amp; lessons</h3>
+          <p>Ordered collections for premium learning paths.</p>
+          <ul class="list compact">
+            <li>Course fields: id, community_id, title, description, order_index, created_at.</li>
+            <li>Lesson fields: id, course_id, title, video_url, pdf_url, order_index, created_at.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid three">
+        <div class="card">
+          <h3>Posts &amp; comments</h3>
+          <p>Community feed similar to Skool with threaded comments.</p>
+          <ul class="list compact">
+            <li>Post belongs to user &amp; community; comment belongs to post &amp; user.</li>
+            <li>Policies restrict visibility to subscribers of the community.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Subscriptions</h3>
+          <p>Controls student access and billing reconciliation.</p>
+          <ul class="list compact">
+            <li>Fields: id, user_id, community_id, status, started_at, expires_at.</li>
+            <li>Only active subscriptions grant course and feed access.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Events</h3>
+          <p>Live sessions (Zoom/Meet) surfaced in calendars.</p>
+          <ul class="list compact">
+            <li>Fields: id, community_id, title, start_time, end_time, link, visibility.</li>
+            <li>RLS mirrors course access: subscribers only.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Feature flow</h2>
+        <p>Each feature aligns UI, API, DB, and validation steps.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="dot"></div>
+          <div>
+            <p class="label">Community creation</p>
+            <p class="muted">Server action creates community row with owner_id; RLS ensures only owner can mutate. Banner stored in Supabase Storage.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="dot"></div>
+          <div>
+            <p class="label">Course &amp; lesson authoring</p>
+            <p class="muted">Server actions validate with Zod, write course/lesson records, trigger maintains order_index.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="dot"></div>
+          <div>
+            <p class="label">Content delivery</p>
+            <p class="muted">Server components stream course/lesson data; client player handles video with signed URLs from Supabase Storage.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="dot"></div>
+          <div>
+            <p class="label">Subscriptions</p>
+            <p class="muted">Stripe/webhook updates subscription status; RLS gate keeps course, posts, and events per community_id.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Deployment checklist</h2>
+        <p>Production posture for Vercel + Supabase.</p>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>Frontend readiness</h3>
+          <ul class="list">
+            <li>Environment variables mapped via <code>env.local</code> and Vercel dashboard.</li>
+            <li>Edge runtime only where cacheable; node runtime for server actions using Supabase client.</li>
+            <li>Static assets optimized; fonts loaded via next/font.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Security &amp; RLS</h3>
+          <ul class="list">
+            <li>Policies isolate rows by <code>community_id</code> and enforce ownership for writes.</li>
+            <li>JWT claims include <code>role</code> and <code>community_id</code> for multi-tenant awareness.</li>
+            <li>Storage policies restrict uploads to owners; signed URLs for consumption.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
