@@ -18,11 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={inter.variable}>
-      <body>
-        <div className="relative overflow-hidden">
-          <div className="glow" aria-hidden />
-          {children}
-        </div>
+      <body className="relative min-h-screen overflow-x-hidden bg-background text-foreground antialiased">
+        <div
+          className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_15%_15%,rgba(99,102,241,0.18),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.2),transparent_25%)] blur-3xl"
+          aria-hidden
+        />
+        <div className="relative">{children}</div>
       </body>
     </html>
   );

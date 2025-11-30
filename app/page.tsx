@@ -1,7 +1,11 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
 const features = [
   {
     title: "Comunidades multi-garimpeiro",
-    body: "Cada garimpeiro cria uma comunidade com cursos, aulas em vídeo, PDFs e feed. Multi-tenant por community_id com RLS no Supabase.",
+    body:
+      "Cada garimpeiro cria uma comunidade com cursos, aulas em vídeo, PDFs e feed. Multi-tenant por community_id com RLS no Supabase.",
   },
   {
     title: "Fluxo completo de assinatura",
@@ -38,87 +42,72 @@ const roadmap = [
 
 export default function HomePage() {
   return (
-    <main className="container">
-      <header className="card" style={{ marginBottom: "1.5rem" }}>
-        <p className="badge">GarimpoCloud · Next.js 14 + Supabase</p>
-        <h1 style={{ fontSize: "2.4rem", margin: "0.5rem 0" }}>
-          Construa comunidades de aulas com segurança multi-tenant
-        </h1>
-        <p className="text-muted" style={{ lineHeight: 1.6 }}>
-          SaaS para garimpeiros e estudantes universitários em Angola. Conteúdo privado por comunidade,
-          Supabase Auth, RLS e Server Actions desde o início.
-        </p>
-        <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
-          <a
-            className="badge"
-            style={{ background: "rgba(34,197,94,0.14)", color: "#bbf7d0" }}
-            href="#roadmap"
-          >
-            Ver roadmap de entregas
-          </a>
-          <a
-            className="badge"
-            style={{ background: "rgba(14,165,233,0.16)", color: "#bae6fd" }}
-            href="#stack"
-          >
-            Stack obrigatória
-          </a>
-        </div>
-      </header>
-
-      <section className="grid grid-3" id="stack" style={{ marginBottom: "1.5rem" }}>
-        {features.map((feature) => (
-          <div key={feature.title} className="card">
-            <h3 className="section-title" style={{ marginBottom: "0.35rem" }}>
-              {feature.title}
-            </h3>
-            <p className="text-muted" style={{ lineHeight: 1.6 }}>{feature.body}</p>
+    <main className="relative">
+      <div className="absolute inset-x-0 top-0 -z-10 mx-auto h-64 max-w-4xl rounded-full bg-gradient-to-r from-brand-500/25 via-cyan-400/20 to-transparent blur-3xl" />
+      <div className="container max-w-5xl space-y-12 py-12 md:py-16">
+        <header className="space-y-6 rounded-2xl border bg-card/70 p-8 shadow-2xl shadow-black/30 backdrop-blur">
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge className="bg-brand-500/15 text-brand-50">GarimpoCloud · Next.js 14 + Supabase</Badge>
+            <Badge variant="outline" className="border-brand-500/50 text-brand-100">
+              Tailwind + shadcn/ui prontos
+            </Badge>
           </div>
-        ))}
-      </section>
+          <div className="space-y-4">
+            <h1 className="text-3xl font-semibold leading-tight text-slate-50 md:text-4xl">
+              Construa comunidades de aulas com segurança multi-tenant
+            </h1>
+            <p className="max-w-3xl text-lg text-muted-foreground">
+              SaaS para garimpeiros e estudantes universitários em Angola. Conteúdo privado por comunidade, Supabase Auth, RLS e Server Actions desde o início.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button size="lg">Ver roadmap de entregas</Button>
+            <Button size="lg" variant="outline">
+              Stack obrigatória
+            </Button>
+          </div>
+        </header>
 
-      <section className="card" id="roadmap" style={{ marginBottom: "1.5rem" }}>
-        <h2 className="section-title">Fases de implementação</h2>
-        <p className="section-subtitle">
-          Trabalho incremental garantindo build saudável e compatibilidade com Vercel + Supabase.
-        </p>
-        <div className="grid grid-2">
-          {roadmap.map((item) => (
-            <div key={item.phase} className="card" style={{ padding: "1.25rem" }}>
-              <p className="badge" style={{ marginBottom: "0.75rem" }}>
-                {item.phase}
-              </p>
-              <h3 className="section-title" style={{ marginBottom: "0.35rem" }}>
-                {item.title}
-              </h3>
-              <p className="text-muted" style={{ lineHeight: 1.6 }}>{item.detail}</p>
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" id="stack">
+          {features.map((feature) => (
+            <div
+              key={feature.title}
+              className="flex h-full flex-col gap-3 rounded-2xl border bg-card/70 p-6 shadow-xl shadow-black/20 backdrop-blur"
+            >
+              <div className="flex items-center gap-2 text-sm text-brand-100">
+                <span className="inline-flex h-2 w-2 rounded-full bg-brand-400" />
+                {feature.title}
+              </div>
+              <p className="text-sm text-muted-foreground leading-6">{feature.body}</p>
             </div>
           ))}
-        </div>
-      </section>
+        </section>
 
-      <section className="card">
-        <h2 className="section-title">Próximos passos</h2>
-        <p className="section-subtitle">
-          Adicionar helpers do Supabase, páginas de autenticação e scripts SQL para communities, courses, lessons, posts,
-          comments, subscriptions e events com RLS multi-tenant.
-        </p>
-        <div className="grid grid-2">
-          <div>
-            <h4 className="section-title" style={{ fontSize: "1.15rem" }}>Público</h4>
-            <p className="text-muted" style={{ lineHeight: 1.6 }}>
-              Landing page com lista de comunidades públicas, perfil do garimpeiro e CTA de assinatura.
-            </p>
+        <section
+          id="roadmap"
+          className="space-y-4 rounded-2xl border bg-card/70 p-6 shadow-xl shadow-black/20 backdrop-blur"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-sm uppercase tracking-wide text-brand-100">Entrega incremental</p>
+              <h2 className="text-2xl font-semibold text-slate-50">Roadmap imediato</h2>
+            </div>
+            <Badge variant="success">Foco em RSC + RLS</Badge>
           </div>
-          <div>
-            <h4 className="section-title" style={{ fontSize: "1.15rem" }}>Autenticado</h4>
-            <p className="text-muted" style={{ lineHeight: 1.6 }}>
-              Dashboards separados para teacher e student usando layouts aninhados, server actions para CRUD seguro
-              e componentes client para formulários com React Hook Form + Zod.
-            </p>
+          <div className="grid gap-4 md:grid-cols-2">
+            {roadmap.map((item) => (
+              <div key={item.title} className="rounded-xl border border-border/70 bg-secondary/50 p-4">
+                <div className="flex items-center justify-between text-sm text-brand-100">
+                  <span>{item.phase}</span>
+                  <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                </div>
+                <h3 className="mt-2 text-lg font-semibold text-slate-50">{item.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground leading-6">{item.detail}</p>
+              </div>
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }
