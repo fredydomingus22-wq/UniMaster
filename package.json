@@ -1,10 +1,35 @@
 {
-  "name": "unimaster",
+  "name": "garimpocloud",
   "version": "0.1.0",
-  "description": "Static buildable scaffold for UniMaster SaaS documentation.",
-  "type": "module",
+  "private": true,
+  "description": "GarimpoCloud — multi-community SaaS for teachers and students built with Next.js 14 and Supabase.",
   "scripts": {
-    "build": "node scripts/build.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "license": "MIT"
+  "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.45.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.447.0",
+    "next": "14.2.10",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-hook-form": "^7.53.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "20.16.2",
+    "@types/react": "18.3.7",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.1",
+    "eslint-config-next": "14.2.10",
+    "postcss": "8.4.45",
+    "tailwindcss": "3.4.10",
+    "typescript": "5.6.2"
+  }
 }
